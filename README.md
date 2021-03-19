@@ -29,9 +29,13 @@ from django_billdesk import ResponseMessage, GetMessage
 <h4>STEP 2</h4>
 Now GetMessage gives the message to be posted in the required format along with the checksum.
 All you need to do is
+
+
 ```
 msg = GetMessage().message(uniqueID, amount, ExInfo1, ExInfo2, ExInfo3, ExInfo4)
 ```
+
+
 <b>NOTE:</b> 
 1. uniqueID mentioned above should be truely unique for all the transactions requested by you.If not, the transaction will be declined by billdesk.
 2. The order of arguments being passed should not be changed.
@@ -39,9 +43,13 @@ msg = GetMessage().message(uniqueID, amount, ExInfo1, ExInfo2, ExInfo3, ExInfo4)
 For ex - emailId of person making transaction, his phone number, his name, his ID in your company or website.<br>
 
 <b>Suggested format</b>
+
+
 ```
 msg = GetMessage().message(uniqueID, amount, some_id, email, name, mnumber)
 ```
+
+
 <b>Important : </b>some_id shouldn't be confused with uniqueID. uniqueID will be created by you everytime a transaction is requested and is ensured that it is truely unique and never before has any request been made with the same id, whereas some_id is the id which you allocate to a user when he or she registers on your site.
 So a same person, when will make multiple transactions, will have same 'some_id' but different uniqueID<br>
 
