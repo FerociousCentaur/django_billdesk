@@ -7,7 +7,7 @@ with open('README.md') as f:
 setuptools.setup(
     author="Vivek Anand",
     author_email="vivek17212797@gmail.com",
-    name='djnago_billdesk',
+    name='django_billdesk',
     license="MIT",
     description='A tool to integrate BillDesk in Django Site',
     version='v0.0.1',
@@ -17,7 +17,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     python_requires=">=3.5",
     install_requires=[],
-    keywords='billdesk python-billdesk py-billdesk djnago-billdesk',
+    keywords='billdesk python-billdesk py-billdesk django-billdesk',
     classifiers=[
         # Trove classifiers
         # (https://pypi.python.org/pypi?%3Aaction=list_classifiers)
