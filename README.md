@@ -5,7 +5,7 @@
 To install just do 
 
 ```
-pip install py-billdesk
+pip install djnago_billdesk
 ```
 
 on your command promt.<br>
@@ -27,17 +27,16 @@ REVERSE_URL = '<reverse url>'
 
 To know excatly what these variables mean have at look at my <a href='#'>gist</a>
 
-####STEP 1
-
+<h4>STEP 1</h4>
 Now to use this in your project,you simply need to do
 
 
 ```
-import ResponseMessage, GetMessage
+from djnago_billdesk import ResponseMessage, GetMessage
 ```
 
 
-####STEP 2
+<h4>STEP 2</h4>
 Now GetMessage gives the message to be posted in the required format along with the checksum.
 All you need to do is
 ```
@@ -56,30 +55,42 @@ msg = GetMessage().message(uniqueID, amount, some_id, email, name, mnumber)
 <b>Important : </b>some_id shouldn't be confused with uniqueID. uniqueID will be created by you everytime a transaction is requested and is ensured that it is truely unique and never before has any request been made with the same id, whereas some_id is the id which you allocate to a user when he or she registers on your site.
 So a same person, when will make multiple transactions, will have same 'some_id' but different uniqueID<br>
 
-####STEP 3
+<h4>STEP 3</h4>
 Now make a 'POST' request to the billdesk url with the msg you obtained. 
 You can obtain the template and complete code to do so from my <a href='#'>gist</a>
 <h4>STEP 4</h4>
 Now you will receive a response at the return url.
 You will send that resposne to ResponseMessage as shown:
+
+
 ```
 values = ResponseMessage.respMsg(<The response msg>)
 ```
+
+
 <b>Note : </b>
 1. Make sure your function which is called at response url is csrf exempted as you are receiving a POST request from a website outside of your domain.
 2. You will get a dictionary in the variable 'values' as mentioned above. But before doing anything make sure the variable 'values' is not False.
+
+
 ```
 if values not False:
     <do everything in here>
 ```
+
+
 cuz if the value is false, it means there had been a breach as <b>Checksum verification</b> failed.
 
-####STEP 4
+<h4>STEP 4</h4>
 Now you can update your database based on the response and values in the variable 'values'
 <b>Structure</b> of 'values':
+
+
 ```
 {'MID': '', 'OrderID': '', 'TaxnNo': '', 'AMNT': '', 'TStat': '', 'DnT': '', 'TMode': ''}
 ```
+
+
 All the variables in the dictionary above will hold values as received in the response message from billdesk
 
 1. MID = will hold the merchant ID to which payment was made

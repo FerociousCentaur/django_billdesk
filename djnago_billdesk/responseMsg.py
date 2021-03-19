@@ -39,6 +39,7 @@ class ResponseMessage:
 
     def respMsg(self, response):
         response = response['msg'].strip('()')
+        response = response.strip('\n')
         # print(response)
         valid_payment = Checksum().verify_checksum(response)
         if not valid_payment:
