@@ -65,3 +65,31 @@ class ResponseMessage:
         mode = response[pipeind7 + 1:pipeind8]
         mode = self.get_mode(mode)
         return {'MID': mid, 'OrderID': oid, 'TaxnNo': txnid, 'AMNT': amnt, 'TStat': tstat, 'DnT': dnt, 'TMode': mode}
+
+    def schedule_resp(self, response):
+        try:
+            response = response.text
+        except Exception:
+            pass
+        valid_payment = Checksum().verify_checksum(response)
+        if not valid_payment:
+            return False
+        pipeind1 = self.findNthOccur(response, '|', 1)
+        pipeind2 = self.findNthOccur(response, '|', 2)
+        pipeind3 = self.findNthOccur(response, '|', 3)
+        pipeind4 = self.findNthOccur(response, '|', 4)
+        pipeind15 = self.findNthOccur(response, '|', 15)
+        pipeind16 = self.findNthOccur(response, '|', 16)
+        pipeind27 = self.findNthOccur(response, '|', 27)
+        pipeind28 = self.findNthOccur(response, '|', 28)
+        pipeind29 = self.findNthOccur(response, '|', 29)
+        pipeind31 = self.findNthOccur(response, '|', 31)
+        pipeind32 = self.findNthOccur(response, '|', 32)
+        mid = response[pipeind1 + 1:pipeind2]
+        txnid = response[pipeind3 + 1:pipeind4]
+        oid = response[pipeind2 + 1:pipeind3]
+        status = response[pipeind31 + 1:pipeind32]
+        authstat = response[pipeind15 + 1:pipeind16]
+        refundtstat = response[pipeind28 + 1:pipeind29]
+        amnt = response[pipeind27 + 1:pipeind28]
+        return {'MID': mid, 'OrderID': oid, 'TaxnNo': txnid, 'AMNT': amnt, 'TStat': authstat, 'RfndStat': refundtstat}

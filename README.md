@@ -1,5 +1,12 @@
 # django-billdesk
 
+<h3>Installation</h3>
+
+
+```
+pip install django-billdesk
+```
+
 <h3>Usage</h3>
 An tool to ease the process to integrate billdesk payment gateway with your <b>django</b> project.
 All you need to do is to create these variables in your settings.py file.
@@ -98,3 +105,50 @@ All the variables in the dictionary above will hold values as received in the re
 5. TStat = will hold the transaction status number. <a href='https://gist.github.com/FerociousCentaur/8f1b7a4de9f0122e5766766554a9aeb1'>See the possible outcomes and their meaning</a>
 6. DnT = will hold the date and time at which the transaction was made.
 7. TMode = will hold the mode of transaction. For ex- UPI, Internet Banking.
+
+<h2>Extra</h2>
+
+<h4>STEP 1</h4>
+All the transactions may not get successful instantly and sometimes give status as PENDING which generally means that BillDesk is waiting for the response from the bank. In such cases you need to verify again with billdesk about the payment through Query Api.The message sent using query API has a bit different format and can be achieved using
+
+
+```
+msg = GetMessage().schedule_msg(uniqueID)
+```
+
+'msg' will have the message to be sent using POST method.
+<b>NOTE :</b>You can Python's `requests` module to send POST requests to the Query API but while sending POST requests for the payment request,you need to do it from template forms like this so that the user can be properly redirected to billdesk page.
+
+
+```
+<html>
+<body>
+<form action="{{url}}" method="post" name="billdesk">
+    <input name="msg" type="hidden" value="{{msg}}">
+</form>
+</body>
+<script>
+
+  document.billdesk.submit();
+</script>
+</html>
+```
+
+
+<h4>STEP 2</h4>
+To access the values returned by billdesk for the Query API, pass the response like this to,
+
+
+```
+values = ResponseMessage.schedule_resp(<the recieved response>)
+```
+
+Now again proceed only after making sure that values is not equal to False.If it is not,then it will hold a dictionary with the following structure.
+
+
+```
+{'MID': '', 'OrderID': '', 'TaxnNo': '', 'AMNT': '', 'TStat': '', 'RfndStat': ''}
+```
+
+Variables have their usual meaning as stated above.`RfndStat` contains the refund status of the transaction.<br>
+<b>Important</b> Always use <a href='https://gist.github.com/FerociousCentaur/8f1b7a4de9f0122e5766766554a9aeb1'>combination</a> of auth status and refund status to update you database.

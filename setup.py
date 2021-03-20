@@ -10,7 +10,7 @@ setuptools.setup(
     name='django_billdesk',
     license="MIT",
     description='A tool to integrate BillDesk in Django Site',
-    version='v0.0.1',
+    version='v0.0.2',
     long_description=README,
     long_description_content_type='text/markdown',
     url='https://github.com/FerociousCentaur/py-billdesk',
