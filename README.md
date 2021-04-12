@@ -1,6 +1,9 @@
 # django-billdesk
 
-<h3>Installation</h3>
+- [Installtion](#installation)
+- [Submit Form](#submit-form)
+
+### Installation
 
 
 ```
@@ -119,6 +122,7 @@ msg = GetMessage().schedule_msg(uniqueID)
 'msg' will have the message to be sent using POST method.
 <b>NOTE :</b>You can Python's `requests` module to send POST requests to the Query API but while sending POST requests for the payment request,you need to do it from template forms like this so that the user can be properly redirected to billdesk page.
 
+### Submit Form
 
 ```
 <html>
